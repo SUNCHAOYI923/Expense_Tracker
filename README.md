@@ -1,4 +1,4 @@
-# How to Use AI - Demo (All in English)
+# How to Use AI
 
 ## 1. Setup
 
@@ -128,4 +128,4 @@ expense_tracker/
 
 Build the project according to the framework and personalize it appropriately.
 
-![Untitled](C:\Users\SUNCHAOYI\Desktop\Untitled.png)
+![1](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/7d217a097ec3142c91b71f0d671bf4ee2ddc26a3/readme1.png)
