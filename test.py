@@ -1,3 +1,5 @@
+# main_cli.py – Interactive CLI for Smart Expense Tracker
+
 import os
 from pathlib import Path
 import pandas as pd
@@ -18,141 +20,120 @@ from core.reports import (
     generate_budget_report,
     get_monthly_trend
 )
-from vis import (
-    plot_monthly_summary,
-    plot_category_spending,
-    plot_budget_status,
-    plot_monthly_trend
-)
 
-# Constants
 EXPORT_CSV = "data/transactions_export.csv"
-DB_PATH = "resources/data.db"
 
-def print_table(df: pd.DataFrame, title: str) -> None:
-    """Print DataFrame with a title."""
-    print(f"\n=== {title} ===")
+def print_table(df: pd.DataFrame, title: str = ""):
+    if title:
+        print(f"\n=== {title} ===")
     if df.empty:
         print("No data")
     else:
         print(df.to_string(index=False))
 
-# ———————————————————————————————
-# Clean up old data
-# ———————————————————————————————
 def reset_test_environment():
+    """
+    Clear all data in the database tables (no file deletion)
+    and remove old CSV export.
+    """
     print("🔄 Resetting test environment...")
-    # 1. Remove old database
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
-        print(f"Removed old database: {DB_PATH}")
-
-    # 2. Remove old CSV
+    db = ExpenseDatabase()
+    db.clear_all()  
+    print("All tables cleared.")
     if os.path.exists(EXPORT_CSV):
         os.remove(EXPORT_CSV)
         print(f"Removed old CSV: {EXPORT_CSV}")
-
-    # 3. Ensure required folders exist
     Path("data").mkdir(exist_ok=True)
     Path("resources").mkdir(exist_ok=True)
 
-# ———————————————————————————————
-# 1. Test database.py and tracker.py
-# ———————————————————————————————
-def test_database_operations() -> None:
-    print("=== Expense Tracker Test Suite ===")
-    db = ExpenseDatabase()
+def menu():
+    print("""
+Please select an option:
+1. Add expense
+2. Add income
+3. List transactions
+4. Remove a transaction
+5. Export to CSV
+6. Set budget
+7. List budgets
+8. Remove a budget
+9. Show spending summary
+10. Monthly report
+11. Category report
+12. Budget report
+13. Yearly trend report
+0. Exit
+""")
 
-    print("\n1. Adding sample transactions...")
-    add_expense("2023-01-10", 150.0, "food", "Lunch with team")
-    add_income("2023-01-15", 5000.0, "salary", "January salary")
-    add_expense("2023-01-20", 200.0, "transport", "Monthly pass")
-    print_table(get_transactions(), "All Transactions")
-
-    print("\n2. Exporting data to CSV...")
-    db.export_to_csv(EXPORT_CSV)
-    print(f"Exported to: {EXPORT_CSV}")
-
-    print("\n3. Removing transaction with ID=1...")
-    success = remove_transaction(1)
-    print(f"Transaction removed: {success}")
-    print_table(get_transactions(), "Transactions after removal")
-
-# ———————————————————————————————
-# 2. Test budget.py
-# ———————————————————————————————
-def test_budget_module() -> None:
-    print("\n=== Budget Module Test ===")
-
-    print("\n4. Setting category budgets...")
-    set_category_budget("food", 500.0)
-    set_category_budget("transport", 300.0)
-    set_category_budget("entertainment", 200.0)
-    print_table(list_budgets(), "Budgets after setting")
-
-    print("\n5. Getting category budget limits:")
-    for cat in ["food", "transport", "entertainment", "salary"]:
-        limit = get_category_budget(cat)
-        print(f"- {cat}: {limit}")
-
-    print("\n6. Removing 'entertainment' budget...")
-    removed = remove_category_budget("entertainment")
-    print(f"Removed entertainment: {removed}")
-    print_table(list_budgets(), "Budgets after removal")
-
-    print("\n7. Checking budget status:")
-    for cat in ["food", "transport", "salary"]:
-        over, rem = check_budget(cat)
-        print(f"- {cat}: over={over}, remaining={rem}")
-
-    print("\n8. Budget alerts (threshold=0):")
-    alerts = budget_alerts(threshold=0)
-    print_table(alerts, "Categories over or at limit")
-
-# ———————————————————————————————
-# 3. Test reports.py
-# ———————————————————————————————
-def test_report_module() -> None:
-    print("\n=== Reports Module Test ===")
-
-    print("\n9. Monthly report for 2023-01:")
-    report = generate_monthly_report("2023-01")
-    print(report)
-
-    print("\n10. Category report for 2023-01:")
-    print_table(generate_category_report("2023-01"), "Category Report")
-
-    print("\n11. Budget report for 2023-01:")
-    print_table(generate_budget_report("2023-01"), "Budget Report")
-
-    print("\n12. Monthly trend report for 2023:")
-    print_table(get_monthly_trend("2023"), "Monthly Trend")
-
-# ———————————————————————————————
-# 4. Test vis.py (visualization)
-# ———————————————————————————————
-def test_visualization() -> None:
-    print("\n=== Visualization Test ===")
-
-    print("13. Plotting monthly summary for 2023-01")
-    plot_monthly_summary("2023-01")
-
-    print("14. Plotting category spending for 2023-01")
-    plot_category_spending("2023-01")
-
-    print("15. Plotting budget status for 2023-01")
-    plot_budget_status("2023-01")
-
-    print("16. Plotting monthly trend for 2023")
-    plot_monthly_trend("2023")
-
-# ———————————————————————————————
-# Main Entry Point
-# ———————————————————————————————
-if __name__ == "__main__":
+def main():
     reset_test_environment()
-    test_database_operations()
-    test_budget_module()
-    test_report_module()
-    test_visualization()
-    print("\n🎉 All modules tested successfully!")
+    db = ExpenseDatabase()
+    while True:
+        menu()
+        choice = input("Enter choice: ").strip()
+        if choice == "0":
+            print("Goodbye!")
+            break
+        try:
+            if choice == "1":
+                d   = input("Date (YYYY-MM-DD): ").strip()
+                amt = float(input("Amount: "))
+                cat = input("Category: ").strip()
+                desc= input("Description: ").strip()
+                add_expense(d, amt, cat, desc)
+                print("Expense added.")
+            elif choice == "2":
+                d   = input("Date (YYYY-MM-DD): ").strip()
+                amt = float(input("Amount: "))
+                cat = input("Category: ").strip()
+                desc= input("Description: ").strip()
+                add_income(d, amt, cat, desc)
+                print("Income added.")
+            elif choice == "3":
+                df = get_transactions()
+                print_table(df, "All Transactions")
+            elif choice == "4":
+                tx_id = int(input("Transaction ID to remove: "))
+                ok = remove_transaction(tx_id)
+                print("Removed." if ok else "ID not found.")
+            elif choice == "5":
+                db.export_to_csv(EXPORT_CSV)
+                print(f"Exported to {EXPORT_CSV}")
+            elif choice == "6":
+                cat = input("Budget Category: ").strip()
+                lim = float(input("Monthly limit: "))
+                set_category_budget(cat, lim)
+                print("Budget set.")
+            elif choice == "7":
+                df = list_budgets()
+                print_table(df, "Budgets")
+            elif choice == "8":
+                cat = input("Budget category to remove: ").strip()
+                ok = remove_category_budget(cat)
+                print("Removed." if ok else "Not found.")
+            elif choice == "9":
+                df = db.get_spending_summary()
+                print_table(df, "Spending Summary")
+            elif choice == "10":
+                month = input("Month (YYYY-MM): ").strip()
+                rep   = generate_monthly_report(month)
+                print(rep)
+            elif choice == "11":
+                month = input("Month (YYYY-MM): ").strip()
+                df = generate_category_report(month)
+                print_table(df, "Category Report")
+            elif choice == "12":
+                month = input("Month (YYYY-MM): ").strip()
+                df = generate_budget_report(month)
+                print_table(df, "Budget Report")
+            elif choice == "13":
+                year = input("Year (YYYY): ").strip()
+                df = get_monthly_trend(year)
+                print_table(df, f"Trend for {year}")
+            else:
+                print("Invalid choice, try again.")
+        except Exception as e:
+            print("Error:", e)
+
+if __name__ == "__main__":
+    main()

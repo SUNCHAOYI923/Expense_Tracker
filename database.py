@@ -8,6 +8,13 @@ class ExpenseDatabase:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
+        
+    def clear_all(self) -> None:
+        """Delete all rows from transactions and budgets."""
+        with self._get_conn() as conn:
+            conn.execute("DELETE FROM transactions")
+            conn.execute("DELETE FROM budgets")
+            conn.commit()
 
     def _get_conn(self) -> sqlite3.Connection:
         return sqlite3.connect(self.db_path)

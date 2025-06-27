@@ -25,6 +25,7 @@ from core.reports import (
 sns.set_style("whitegrid")
 DB = ExpenseDatabase()
 
+
 class PandasModel(QtCore.QAbstractTableModel):
     def __init__(self, df=pd.DataFrame(), parent=None):
         super().__init__(parent)
@@ -52,6 +53,7 @@ class PandasModel(QtCore.QAbstractTableModel):
             else:
                 return str(section)
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -65,7 +67,7 @@ class MainWindow(QMainWindow):
         tabs.addTab(self._make_visual_tab(), "Visualization")
         self.setCentralWidget(tabs)
 
-        # initial population
+        # Populate month/category lists
         self._update_months()
         self._update_categories()
 
@@ -76,11 +78,17 @@ class MainWindow(QMainWindow):
         df = get_transactions()
         months = sorted(pd.to_datetime(df["date"]).dt.to_period("M").astype(str).unique().tolist())
         if hasattr(self, "rmonth_cb"):
+            current = self.rmonth_cb.currentText()
             self.rmonth_cb.clear()
             self.rmonth_cb.addItems(months)
+            if current in months:
+                self.rmonth_cb.setCurrentText(current)
         if hasattr(self, "vmonth_cb"):
+            current = self.vmonth_cb.currentText()
             self.vmonth_cb.clear()
             self.vmonth_cb.addItems(months)
+            if current in months:
+                self.vmonth_cb.setCurrentText(current)
 
     def _update_categories(self):
         tx_cats = set(get_transactions()["category"].dropna().unique())
@@ -88,10 +96,19 @@ class MainWindow(QMainWindow):
         bg_cats = set(bg_df["category"].dropna().unique()) if not bg_df.empty else set()
         all_cats = sorted(tx_cats | bg_cats)
         if hasattr(self, "cat_cb"):
+            current = self.cat_cb.currentText()
             self.cat_cb.clear()
             self.cat_cb.addItems(all_cats)
+            if current in all_cats:
+                self.cat_cb.setCurrentText(current)
+        if hasattr(self, "bcat_cb"):
+            current = self.bcat_cb.currentText()
+            self.bcat_cb.clear()
+            self.bcat_cb.addItems(all_cats)
+            if current in all_cats:
+                self.bcat_cb.setCurrentText(current)
 
-    # ---- Transactions Tab ----
+    # Transactions Tab
     def _make_transactions_tab(self):
         w = QWidget()
         layout = QVBoxLayout()
@@ -137,18 +154,18 @@ class MainWindow(QMainWindow):
             d = self.date_edit.date()
             if d > QDate.currentDate():
                 raise ValueError("Date cannot be in the future.")
-            category = self.cat_cb.currentText().strip()
-            if not category:
+            cat = self.cat_cb.currentText().strip()
+            if not cat:
                 raise ValueError("Category cannot be empty.")
-            amount = self.amt_spin.value()
-            if amount == 0:
+            amt = self.amt_spin.value()
+            if amt == 0:
                 raise ValueError("Amount must not be zero.")
             typ = self.typ_cb.currentText()
-            val = -abs(amount) if typ == "expense" else abs(amount)
+            val = -abs(amt) if typ == "expense" else abs(amt)
             data = {
                 "date": d.toString("yyyy-MM-dd"),
                 "amount": val,
-                "category": category,
+                "category": cat,
                 "description": self.desc_cb.currentText().strip()
             }
             if typ == "expense":
@@ -183,23 +200,24 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self._show_error(str(e))
 
-    # ---- Budgets Tab ----
+    # Budgets Tab
     def _make_budgets_tab(self):
         w = QWidget()
         layout = QVBoxLayout()
         top = QHBoxLayout()
 
-        self.bcat_edit = QLineEdit()
+        self.bcat_cb = QComboBox()
+        self.bcat_cb.setEditable(True)
         self.blim_spin = QDoubleSpinBox()
         self.blim_spin.setMaximum(1e6)
 
         btn_set = QPushButton("Set Budget")
         btn_set.clicked.connect(self._set_budget)
-        btn_delete = QPushButton("Delete Selected Budget")
-        btn_delete.clicked.connect(self._delete_selected_budget)
+        btn_del = QPushButton("Delete Selected Budget")
+        btn_del.clicked.connect(self._delete_selected_budget)
 
         top.addWidget(QLabel("Category"))
-        top.addWidget(self.bcat_edit)
+        top.addWidget(self.bcat_cb)
         top.addWidget(QLabel("Limit"))
         top.addWidget(self.blim_spin)
         top.addWidget(btn_set)
@@ -210,7 +228,7 @@ class MainWindow(QMainWindow):
 
         layout.addLayout(top)
         layout.addWidget(self.b_table)
-        layout.addWidget(btn_delete)
+        layout.addWidget(btn_del)
         w.setLayout(layout)
 
         self._refresh_budgets()
@@ -218,7 +236,7 @@ class MainWindow(QMainWindow):
 
     def _set_budget(self):
         try:
-            cat = self.bcat_edit.text().strip()
+            cat = self.bcat_cb.currentText().strip()
             lim = self.blim_spin.value()
             if not cat:
                 raise ValueError("Budget category cannot be empty.")
@@ -226,7 +244,6 @@ class MainWindow(QMainWindow):
                 raise ValueError("Limit must be positive.")
             set_category_budget(cat, lim)
             QMessageBox.information(self, "Success", "Budget set.")
-            self.bcat_edit.clear()
             self.blim_spin.setValue(0)
             self._refresh_budgets()
             self._update_categories()
@@ -250,26 +267,24 @@ class MainWindow(QMainWindow):
         df = list_budgets()
         self.b_model.update(df)
 
-    # ---- Reports Tab ----
+    # Reports Tab
     def _make_reports_tab(self):
         w = QWidget()
         layout = QVBoxLayout()
         ctrl = QHBoxLayout()
 
         self.rmonth_cb = QComboBox()
-        self.rmonth_cb.addItems(self._months())
-        btn1 = QPushButton("Monthly")
-        btn1.clicked.connect(self._show_monthly_report)
-        btn2 = QPushButton("By Category")
-        btn2.clicked.connect(self._show_category_report)
-        btn3 = QPushButton("Budget")
-        btn3.clicked.connect(self._show_budget_report)
-
+        self.rmonth_cb.currentIndexChanged.connect(self._show_monthly_report)
         ctrl.addWidget(QLabel("Month"))
         ctrl.addWidget(self.rmonth_cb)
-        ctrl.addWidget(btn1)
-        ctrl.addWidget(btn2)
-        ctrl.addWidget(btn3)
+
+        btn_cat = QPushButton("By Category")
+        btn_cat.clicked.connect(self._show_category_report)
+        btn_bud = QPushButton("Budget")
+        btn_bud.clicked.connect(self._show_budget_report)
+
+        ctrl.addWidget(btn_cat)
+        ctrl.addWidget(btn_bud)
 
         self.r_model = PandasModel()
         self.r_table = QTableView()
@@ -278,41 +293,44 @@ class MainWindow(QMainWindow):
         layout.addLayout(ctrl)
         layout.addWidget(self.r_table)
         w.setLayout(layout)
-        return w
 
-    def _months(self):
-        df = get_transactions()
-        return sorted(pd.to_datetime(df["date"]).dt.to_period("M").astype(str).unique())
+        return w
 
     def _show_monthly_report(self):
         try:
-            rep = generate_monthly_report(self.rmonth_cb.currentText())
+            month = self.rmonth_cb.currentText()
+            rep = generate_monthly_report(month)
             self.r_model.update(pd.DataFrame([rep]))
         except Exception as e:
             self._show_error(str(e))
 
     def _show_category_report(self):
         try:
-            df = generate_category_report(self.rmonth_cb.currentText())
+            month = self.rmonth_cb.currentText()
+            df = generate_category_report(month)
             self.r_model.update(df)
         except Exception as e:
             self._show_error(str(e))
 
     def _show_budget_report(self):
         try:
-            df = generate_budget_report(self.rmonth_cb.currentText())
+            month = self.rmonth_cb.currentText()
+            df = generate_budget_report(month)
             self.r_model.update(df)
         except Exception as e:
             self._show_error(str(e))
 
-    # ---- Visualization Tab ----
+    # Visualization Tab
     def _make_visual_tab(self):
         w = QWidget()
         layout = QVBoxLayout()
         ctrl = QHBoxLayout()
 
         self.vmonth_cb = QComboBox()
-        self.vmonth_cb.addItems(self._months())
+        self.vmonth_cb.currentIndexChanged.connect(self._plot_summary)
+        ctrl.addWidget(QLabel("Month"))
+        ctrl.addWidget(self.vmonth_cb)
+
         btn1 = QPushButton("Summary")
         btn1.clicked.connect(self._plot_summary)
         btn2 = QPushButton("Category")
@@ -322,8 +340,6 @@ class MainWindow(QMainWindow):
         btn4 = QPushButton("Trend")
         btn4.clicked.connect(self._plot_trend)
 
-        ctrl.addWidget(QLabel("Month"))
-        ctrl.addWidget(self.vmonth_cb)
         ctrl.addWidget(btn1)
         ctrl.addWidget(btn2)
         ctrl.addWidget(btn3)
@@ -333,17 +349,22 @@ class MainWindow(QMainWindow):
         layout.addLayout(ctrl)
         layout.addWidget(self.canvas)
         w.setLayout(layout)
+
         return w
 
     def _plot_summary(self):
         try:
             month = self.vmonth_cb.currentText()
             rep = generate_monthly_report(month)
-            fig = self.canvas.figure; fig.clear()
+            fig = self.canvas.figure
+            fig.clear()
             ax = fig.add_subplot(111)
-            sns.barplot(x=["Income", "Expense"],
-                        y=[rep["income"], abs(rep["expense"])],
-                        palette=["#4caf50", "#f44336"], ax=ax)
+            sns.barplot(
+                x=["Income", "Expense"],
+                y=[rep["income"], abs(rep["expense"])],
+                palette=["#4caf50", "#f44336"],
+                ax=ax
+            )
             ax.set_title(f"Summary {month}")
             self.canvas.draw()
         except Exception as e:
@@ -354,7 +375,8 @@ class MainWindow(QMainWindow):
             month = self.vmonth_cb.currentText()
             df = generate_category_report(month)
             df = df[df["expense"] < 0]
-            fig = self.canvas.figure; fig.clear()
+            fig = self.canvas.figure
+            fig.clear()
             ax = fig.add_subplot(111)
             if df.empty:
                 raise ValueError("No expenses to plot.")
@@ -368,7 +390,8 @@ class MainWindow(QMainWindow):
         try:
             month = self.vmonth_cb.currentText()
             df = generate_budget_report(month)
-            fig = self.canvas.figure; fig.clear()
+            fig = self.canvas.figure
+            fig.clear()
             ax = fig.add_subplot(111)
             if df.empty:
                 raise ValueError("No budget data.")
@@ -383,16 +406,18 @@ class MainWindow(QMainWindow):
         try:
             year = self.vmonth_cb.currentText()[:4]
             df = get_monthly_trend(year)
-            fig = self.canvas.figure; fig.clear()
+            fig = self.canvas.figure
+            fig.clear()
             ax = fig.add_subplot(111)
             if df.empty:
                 raise ValueError("No trend data.")
-            df_m = df.melt(id_vars=["month"],
-                           value_vars=["income", "expense", "net"],
-                           var_name="variable",
-                           value_name="value")
-            sns.lineplot(data=df_m, x="month", y="value", hue="variable",
-                         marker="o", ax=ax)
+            df_m = df.melt(
+                id_vars=["month"],
+                value_vars=["income", "expense", "net"],
+                var_name="variable",
+                value_name="value"
+            )
+            sns.lineplot(data=df_m, x="month", y="value", hue="variable", marker="o", ax=ax)
             ax.set_title(f"Trend {year}")
             ax.tick_params(axis="x", rotation=45)
             self.canvas.draw()
