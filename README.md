@@ -65,7 +65,7 @@ You’ll learn:
 
 ## 3. Specific design
 
-#### ① Frame construction
+###  ① Frame Construction
 
 A solid directory scaffold makes all future development smoother. The core job now is to ask the AI to turn that into a folder/file skeleton.  
 
@@ -243,7 +243,7 @@ class ExpenseDatabase:
 - Understand the contents of this table.
 - Find the address where data is saved.
 
-#### 2. Database
+#### 2. core/tracker.py
 
 **Prompt**
 
@@ -329,7 +329,7 @@ Now we need to make sure that the code works properly. Therefore, it is necessar
 > - database.py defines ExpenseDatabase     
 > - core/tracker.py defines add_expense, add_income, list_entries, remove_entry
 >
-> Please generate a file named `main.py` that:
+> Please generate a file named `test.py` that:
 >
 > - Create an ExpenseDatabase instance.      
 > - Add two transactions (one expense, one income).   
@@ -410,3 +410,286 @@ if __name__ == "__main__":
 The test reference is shown in the figure.
 
 ![2](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/2b7f2eda1fc75abc5772eadc1a086f7391371f6b/readme2.png)
+
+#### 3.core/budget.py & reports.py
+
+Try to use your own words to prompt AI and test the codes. Here are reference codes.
+
+```py
+#core/budget.py
+import sqlite3
+import pandas as pd
+from typing import Tuple
+from database import ExpenseDatabase
+
+db = ExpenseDatabase()
+
+def set_category_budget(category: str, limit: float) -> None:
+    """
+    Set or update the monthly budget for a category.
+    """
+    db.set_budget(category, limit)
+
+def get_category_budget(category: str) -> float:
+    """
+    Return the monthly_limit for the given category, or 0.0 if not defined.
+    """
+    budgets = db.get_budgets()
+    row = budgets[budgets["category"] == category]
+    return float(row["monthly_limit"].iloc[0]) if not row.empty else 0.0
+
+def remove_category_budget(category: str) -> bool:
+    """
+    Remove a budget entry by category. Return True if deleted.
+    """
+    conn = sqlite3.connect(db.db_path)
+    cur = conn.cursor()
+    cur.execute("DELETE FROM budgets WHERE category = ?", (category,))
+    conn.commit()
+    deleted = cur.rowcount > 0
+    conn.close()
+    return deleted
+
+def list_budgets() -> pd.DataFrame:
+    """
+    Return all budget entries as a DataFrame.
+    """
+    return db.get_budgets()
+
+def check_budget(category: str) -> Tuple[bool, float]:
+    """
+    Check if a category is over its budget.
+    Returns (is_over_budget, remaining_amount).
+    """
+    summary = db.get_spending_summary()
+    row = summary[summary["category"] == category]
+    if row.empty:
+        return (False, 0.0)
+    rem = float(row["remaining"].iloc[0])
+    return (rem < 0, rem)
+
+def budget_alerts(threshold: float = 0.0) -> pd.DataFrame:
+    """
+    Return categories whose remaining budget is <= threshold.
+    """
+    summary = db.get_spending_summary()
+    return summary[summary["remaining"] <= threshold]
+```
+
+```py
+#core/reports.py
+import pandas as pd
+from typing import Dict, Any
+from database import ExpenseDatabase
+from core.budget import get_category_budget
+
+db = ExpenseDatabase()
+
+def generate_monthly_report(month: str) -> Dict[str, float]:
+    """
+    Generate a report for a given month with total income, expense, and net.
+    Month format: "YYYY-MM"
+    """
+    start_date = f"{month}-01";end_date = f"{month}-31"
+    df = db.get_transactions(start_date=start_date, end_date=end_date)
+    income = df[df["type"] == "income"]["amount"].sum()
+    expense = df[df["type"] == "expense"]["amount"].sum()
+    net = income + expense  # expense is negative
+    return {"income": income, "expense": expense, "net": net}
+
+
+def generate_category_report(month: str) -> pd.DataFrame:
+    """
+    Generate a category-wise report for a given month.
+    Returns DataFrame with columns: category, income, expense, net
+    """
+    start_date = f"{month}-01";end_date = f"{month}-31"
+    df = db.get_transactions(start_date=start_date, end_date=end_date)
+    def pivot_and_format(category_type: str) -> pd.DataFrame:
+        sub_df = df[df["type"] == category_type]
+        return sub_df.groupby("category")["amount"].sum().reset_index().rename(
+            columns={"amount": category_type}
+        )
+    income_df = pivot_and_format("income")
+    expense_df = pivot_and_format("expense")
+    merged = pd.merge(income_df, expense_df, on="category", how="outer").fillna(0)
+    merged["net"] = merged["income"] + merged["expense"]
+    return merged[["category", "income", "expense", "net"]]
+
+
+def generate_budget_report(month: str) -> pd.DataFrame:
+    """
+    Generate a budget vs actual spending report.
+    Returns DataFrame with columns: category, limit, spent, remaining
+    """
+    budget_df = db.get_budgets()
+    if budget_df.empty:
+        return pd.DataFrame(columns=["category", "limit", "spent", "remaining"])
+    # Get spending for the month
+    start_date = f"{month}-01";end_date = f"{month}-31"
+    trans_df = db.get_transactions(start_date=start_date, end_date=end_date)
+    spending = trans_df[trans_df["type"] == "expense"].groupby("category")["amount"].sum()
+    spending.name = "spent"
+    # Merge with budgets and fill missing spending as 0
+    report = budget_df.set_index("category").join(spending).fillna(0)
+    report["remaining"] = report["monthly_limit"] + report["spent"]  # expense is negative
+    report = report.reset_index()
+    report = report.rename(columns={"monthly_limit": "limit"})
+    return report[["category", "limit", "spent", "remaining"]]
+
+
+def get_monthly_trend(year: str) -> pd.DataFrame:
+    """
+    Get monthly income, expense, and net for a given year.
+    Returns DataFrame with columns: month, income, expense, net
+    """
+    df = db.get_transactions()
+    df["month"] = pd.to_datetime(df["date"]).dt.to_period("M").astype(str)
+    trend = df.pivot_table(
+        index="month",
+        columns="type",
+        values="amount",
+        aggfunc="sum"
+    ).fillna(0)
+    trend["net"] = trend["income"] + trend["expense"]
+    trend = trend.reset_index()
+    trend = trend[trend["month"].str.startswith(year)]
+    return trend[["month", "income", "expense", "net"]]
+```
+
+#### 4. Data Visualization  
+
+Visualizing financial data is necessary in the project, we choose to use bar/pie/plot to analyze data.
+
+**Prompt**
+
+>  Please create a new file: `gui/vis.py` with functions to visualize financial data. Please include these functions:  
+>
+> 1. plot_monthly_summary(month: str)       - Bar chart showing income vs expense for the given month   
+> 2. plot_category_spending(month: str)       - Pie chart showing spending distribution by category   
+> 3. plot_budget_status(month: str)       - Horizontal bar chart showing budget vs actual spending   
+> 4. plot_monthly_trend(year: str)       - Line chart showing income, expense, and net over months in a year
+
+**Reference Code**
+
+```py
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+from core.reports import (
+    generate_monthly_report,
+    generate_category_report,
+    generate_budget_report,
+    get_monthly_trend
+)
+
+def plot_monthly_summary(month: str) -> None:
+    """
+    Bar chart showing income vs expense for a given month.
+    """
+    report = generate_monthly_report(month)
+    data = {"Income": report["income"], "Expense": abs(report["expense"])}
+    plt.figure(figsize=(6, 4))
+    sns.barplot(x=list(data.keys()), y=list(data.values()), palette="viridis")
+    plt.ylabel("Amount (USD)")
+    plt.title(f"Monthly Summary - {month}")
+    plt.tight_layout()
+    plt.show()
+
+def plot_category_spending(month: str) -> None:
+    """
+    Pie chart showing spending distribution by category.
+    """
+    df = generate_category_report(month)
+    expense_df = df[df["expense"] < 0]
+    if expense_df.empty:
+        print("No expense data to plot.")
+        return
+    plt.figure(figsize=(7, 7))
+    plt.pie(
+        -expense_df["expense"], labels=expense_df["category"], autopct="%1.1f%%", startangle=140
+    )
+    plt.title(f"Spending Distribution - {month}")
+    plt.axis("equal")
+    plt.tight_layout()
+    plt.show()
+
+def plot_budget_status(month: str) -> None:
+    """
+    Horizontal bar chart comparing budget vs actual spending.
+    """
+    df = generate_budget_report(month)
+    if df.empty:
+        print("No budget data to plot.")
+        return
+    df["spent"] = -df["spent"]
+    df = df.sort_values(by="spent", ascending=False)
+    plt.figure(figsize=(8, 5))
+    sns.barplot(x="spent", y="category", data=df, color="salmon", label="Spent")
+    sns.barplot(x="limit", y="category", data=df, color="lightgreen", alpha=0.6, label="Budget")
+    plt.xlabel("Amount (USD)")
+    plt.ylabel("Category")
+    plt.title(f"Budget vs Spending - {month}")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+def plot_monthly_trend(year: str) -> None:
+    """
+    Line chart showing income, expense, and net over the months in the year.
+    """
+    df = get_monthly_trend(year)
+    if df.empty:
+        print("No trend data to plot.")
+        return
+    plt.figure(figsize=(10, 5))
+    sns.lineplot(x="month", y="income", data=df, label="Income", marker="o")
+    sns.lineplot(x="month", y="expense", data=df, label="Expense", marker="o")
+    sns.lineplot(x="month", y="net", data=df, label="Net", marker="o")
+    plt.xticks(rotation=45)
+    plt.ylabel("Amount (USD)")
+    plt.title(f"Monthly Financial Trend - {year}")
+    plt.tight_layout()
+    plt.legend()
+    plt.show()
+```
+
+As the number of modules increases, testing becomes more complex. At this point, encapsulating tests effectively becomes even more crucial. You can test like this in the `test.py` : 
+
+```py
+if __name__ == "__main__":
+    # Run all test modules respectively
+    test_database_operations()
+    test_budget_module()
+    test_report_module()
+    test_visualization()
+```
+
+#### 5. UI Design
+
+The final step is to package this code into a complete desktop accounting tool with a UI design.
+
+> Build a simple PyQt5 GUI that ties everything together and embeds Matplotlib charts.
+
+#### 6. Debug &  Optimization
+
+**Example**
+
+>  Here’s the initial interface I got—it looks good, but testing revealed a few issues.
+> ![3](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/78e75e2d60ea363d577d36715c930b6748c0eb7f/readme3.png)
+> ![4](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/78e75e2d60ea363d577d36715c930b6748c0eb7f/readme4.png)
+> - Adding a new category will cause an error. New category should be added in the database and the table should be refreshed immediately.
+> - Adding empty field entries will cause an error.
+> - Transaction date should not exceed the current date.
+> - Click the button could cause errors.
+> - Recommend implementing select-and-delete functionality for Budgets.
+> - ......
+
+Continuously improve in the process of interaction, so as to obtain the best version.
+
+**Reference Code**
+
+```py
+#main.py
+```
+
