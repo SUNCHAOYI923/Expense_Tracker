@@ -1273,3 +1273,13 @@ if __name__ == "__main__":
     win.show()
     sys.exit(app.exec_())
 ```
+
+### ③ **Outcome Demonstration**
+
+![5](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme5.png)
+
+![6](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme6.png)
+
+![7](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme7.png)
+
+![8](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme8.png)
