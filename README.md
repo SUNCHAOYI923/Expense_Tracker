@@ -1,8 +1,8 @@
-# How to Use AI - Demo (All in English)
+# How to Use AI
 
 ## 1. Setup
 
-> 🎯 Goal: Let students run ChatGPT-generated Python code locally.
+> Goal: Let students run ChatGPT-generated Python code locally.
 
 ### Install VS Code
 
