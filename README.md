@@ -123,7 +123,7 @@ expense_tracker/
 
 Build the project according to the framework and personalize it appropriately.
 
-![1](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/7d217a097ec3142c91b71f0d671bf4ee2ddc26a3/readme1.png)
+![1](readme1.png)
 
 ### ② Code implementation
 
@@ -404,7 +404,7 @@ if __name__ == "__main__":
 
 The test reference is shown in the figure.
 
-![2](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/2b7f2eda1fc75abc5772eadc1a086f7391371f6b/readme2.png)
+![2](readme2.png)
 
 #### 3.core/budget.py & reports.py
 
@@ -817,9 +817,9 @@ The final step is to package this code into a complete desktop accounting tool w
 
 >  Here’s the initial interface I got—it looks good, but testing revealed a few issues.
 >
->  - \> ![3](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/78e75e2d60ea363d577d36715c930b6748c0eb7f/readme3.png)
+>  - \> ![3](readme3.png)
 >
->  -  \> ![4](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/78e75e2d60ea363d577d36715c930b6748c0eb7f/readme4.png)
+>  - \> ![4](readme4.png)
 >
 >  - Adding a new category will cause an error. New category should be added in the database and the table should be refreshed immediately.
 >
@@ -1276,10 +1276,10 @@ if __name__ == "__main__":
 
 ### ③ **Outcome Demonstration**
 
-![5](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme5.png)
+![5](readme5.png)
 
-![6](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme6.png)
+![6](readme6.png)
 
-![7](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme7.png)
+![7](readme7.png)
 
-![8](https://github.com/SUNCHAOYI923/Expense_Tracker/blob/0a1dc50530d70a697b0faf235fcec1f6f9f6922e/readme8.png)
+![8](readme8.png)
