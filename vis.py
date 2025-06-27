@@ -1,5 +1,3 @@
-# gui/vis.py
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -51,7 +49,6 @@ def plot_budget_status(month: str) -> None:
         return
     df["spent"] = -df["spent"]
     df = df.sort_values(by="spent", ascending=False)
-
     plt.figure(figsize=(8, 5))
     sns.barplot(x="spent", y="category", data=df, color="salmon", label="Spent")
     sns.barplot(x="limit", y="category", data=df, color="lightgreen", alpha=0.6, label="Budget")
@@ -70,7 +67,6 @@ def plot_monthly_trend(year: str) -> None:
     if df.empty:
         print("No trend data to plot.")
         return
-
     plt.figure(figsize=(10, 5))
     sns.lineplot(x="month", y="income", data=df, label="Income", marker="o")
     sns.lineplot(x="month", y="expense", data=df, label="Expense", marker="o")
