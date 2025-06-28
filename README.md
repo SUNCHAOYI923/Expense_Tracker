@@ -1,4 +1,4 @@
-# How to Use AI - Demo (All in English)
+# How to Use AI
 
 ## 1. Setup
 
