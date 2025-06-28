@@ -58,6 +58,16 @@ You’ll learn:
 - How to connect Python backend with GUI
 - How to iterate and debug collaboratively with AI  
 
+**Grading Standards** (Rubric, Maximum 100 points)
+
+| Category                              | Points | Description                                                        |
+|:--------------------------------------|:-------:|:-------------------------------------------------------------------|
+| Interactive Menu & Input Handling     |   10    | Menu display, user prompts, choice parsing, input validation       |
+| Transaction Tests                     |   30    | Options 1–4: add expense/income, list transactions, remove entry   |
+| Budget Tests                          |   30    | Options 6–8: set/list/remove budgets, correct DataFrame output     |
+| Reporting & Export Tests              |   20    | Options 5, 9–13: CSV export, spending summary, monthly/category/budget/trend reports |
+| Documentation & README               |   10    | Provides clear project overview, setup instructions and usage examples. |
+
 ## 3. Specific design
 
 ###  ① Frame Construction
