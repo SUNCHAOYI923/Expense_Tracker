@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="how-to-use-ai---demo-all-in-english">How to Use AI - Demo (All in English)</h1>
+<h2 id="1-setup">1. Setup</h2>
+<blockquote>
+<p>🎯 Goal: Let students run ChatGPT-generated Python code locally.</p>
+</blockquote>
+<h3 id="install-vs-code">Install VS Code</h3>
+<ul>
+<li>Download: <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>Install the Python extension</li>
+<li>Open Terminal (Windows: Ctrl+<code>, Mac: Cmd+</code>)</li>
+</ul>
+<h3 id="install-python">Install Python</h3>
+<ul>
+<li>
+<p>Download: <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+</li>
+<li>
+<p>Make sure to check &quot;Add Python to PATH&quot;</p>
+</li>
+<li>
+<p>Verify installation:</p>
+<pre class="hljs"><code><div>python --version
+</div></code></pre>
+</li>
+</ul>
+<h3 id="run-your-first-python-program">Run Your First Python Program</h3>
+<ol>
+<li>
+<p>Open VS Code, create a new file <code>hello.py</code></p>
+</li>
+<li>
+<p>Enter:</p>
+<pre class="hljs"><code><div>print(<span class="hljs-string">"Hello, world!"</span>)
+</div></code></pre>
+</li>
+<li>
+<p>In terminal:</p>
+<pre class="hljs"><code><div>python hello.py
+</div></code></pre>
+</li>
+<li>
+<p>You should see: <code>Hello, world!</code></p>
+</li>
+</ol>
+<h2 id="2-project-overview">2. Project Overview</h2>
+<p>🛠️ This project demonstrates how to use <strong>AI</strong> to build and assemble code for a desktop &quot;Expense Tracker&quot; with:</p>
+<ul>
+<li>expense/income recording</li>
+<li>budget reminders</li>
+<li>report generation &amp; export</li>
+<li>data visualization</li>
+<li>GUI</li>
+</ul>
+<p>You’ll learn:</p>
+<ul>
+<li>How to design effective prompts to generate backend logic</li>
+<li>How to interpret and test AI outputs</li>
+<li>How to integrate <strong>pandas</strong> and <strong>matplotlib</strong> for data analysis &amp; visualization</li>
+<li>How to connect Python backend with GUI</li>
+<li>How to iterate and debug collaboratively with AI</li>
+</ul>
+<h2 id="3-specific-design">3. Specific design</h2>
+<h3 id="%E2%91%A0-frame-construction">① Frame Construction</h3>
+<p>A solid directory scaffold makes all future development smoother. The core job now is to ask the AI to turn that into a folder/file skeleton.</p>
+<p>But how to ask efficiently?</p>
+<p><strong>❌Bad Prompt</strong></p>
+<blockquote>
+<p>Generate a project directory structure for a smart expense tool with features: recording, reminders, reports, visualization, GUI.</p>
+</blockquote>
+<p>Issues:</p>
+<ul>
+<li>No tech stack or language → AI might pick JavaScript, Java, etc.</li>
+<li>No concrete file/folder names → unpredictable output.</li>
+<li>No format specification → AI may return plain text, bullet list, or paragraph.</li>
+</ul>
+<p>So we should identify prompt elements first.</p>
+<ol>
+<li><strong>Context/Tech Stack</strong> - Python, SQLite, pandas, matplotlib, etc.</li>
+<li><strong>Requirements</strong> - List of files/folders that implement each feature</li>
+<li><strong>Output Format</strong> - Markdown fenced code block, tree-view</li>
+</ol>
+<h5 id="%E2%9C%85-good-prompt">✅ Good Prompt</h5>
+<blockquote>
+<p>I’m building a “Expense Tracker” app using Python, SQLite, pandas, matplotlib, ect.
+It needs to support:</p>
+<pre><code>   1. expense/income recording
+      2. budget reminders
+         3. report generation &amp; export
+         4. data visualization
+         5. GUI
+</code></pre>
+<p>Please propose an initial project directory structure:</p>
+<ul>
+<li>Include clear Python file and folder names</li>
+<li>Provide a one-line description for each item</li>
+<li>Output it as a Markdown fenced code block in a tree-view format</li>
+</ul>
+</blockquote>
+<p><strong>Outcome</strong></p>
+<pre class="hljs"><code><div>expense_tracker/
+├── main.py                    # App entry point (launches GUI)
+├── database.py               # All database operations (models + queries)
+├── config.py                 # Constants (DB path, budget limits, etc.)
+│
+├── core/                     # Core functionality
+│   ├── tracker.py           # CRUD for income/expense records
+│   ├── budget.py            # Budget calculations &amp; alerts
+│   └── reports.py           # Report/visualization generation
+│
+├── gui/                      # User interface
+│   ├── main_window.py       # Main window layout (Tkinter/PyQt)
+│   └── components.py        # Reusable UI widgets (tables, charts, etc.)
+│
+└── data/
+<span class="hljs-code">    ├── expenses.db          # SQLite database file</span>
+<span class="hljs-code">    └── exports/             # Generated reports/charts</span>
+</div></code></pre>
+<p>Build the project according to the framework and personalize it appropriately.</p>
+<p><img src="readme1.png" alt="1"></p>
+<h3 id="%E2%91%A1-code-implementation">② Code implementation</h3>
+<h4 id="1-database">1. Database</h4>
+<p><strong>Prompt</strong></p>
+<blockquote>
+<p>I’m building a “Smart Expense Tracker” desktop app in Python, and I want to use <strong>pure pandas DataFrame</strong> operations (no raw SQL) to create and manage my SQLite database. Please generate a Python module named <code>database.py</code>.</p>
+<p>Wrap your answer in a single <code>database.py</code> code block.</p>
+</blockquote>
+<details>
+<summary><strong>Reference Code (Generated by AI)</strong></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> sqlite3
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Optional, Union
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExpenseDatabase</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, db_path: str = <span class="hljs-string">"resources/data.db"</span>)</span>:</span>
+        self.db_path = Path(db_path)
+        self.db_path.parent.mkdir(parents=<span class="hljs-literal">True</span>, exist_ok=<span class="hljs-literal">True</span>)
+        self._init_db()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_conn</span><span class="hljs-params">(self)</span> -&gt; sqlite3.Connection:</span>
+        <span class="hljs-keyword">return</span> sqlite3.connect(self.db_path)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_init_db</span><span class="hljs-params">(self)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+        <span class="hljs-keyword">with</span> self._get_conn() <span class="hljs-keyword">as</span> conn:
+            conn.execute(<span class="hljs-string">"""
+                CREATE TABLE IF NOT EXISTS transactions (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    date TEXT NOT NULL,
+                    amount REAL NOT NULL,
+                    category TEXT NOT NULL,
+                    description TEXT,
+                    type TEXT CHECK(type IN ('income','expense'))
+                )
+            """</span>)
+            conn.execute(<span class="hljs-string">"""
+                CREATE TABLE IF NOT EXISTS budgets (
+                    category TEXT PRIMARY KEY,
+                    monthly_limit REAL NOT NULL
+                )
+            """</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_transaction</span><span class="hljs-params">(self, data: Union[dict, pd.DataFrame])</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+        <span class="hljs-keyword">if</span> isinstance(data, dict):
+            df = pd.DataFrame([data])
+        <span class="hljs-keyword">elif</span> isinstance(data, pd.Series):
+            df = data.to_frame().T
+        <span class="hljs-keyword">else</span>:
+            df = data.copy()
+        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> (<span class="hljs-string">"date"</span>,<span class="hljs-string">"amount"</span>,<span class="hljs-string">"category"</span>,<span class="hljs-string">"description"</span>,<span class="hljs-string">"type"</span>):
+            <span class="hljs-keyword">if</span> col <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> df.columns:
+                df[col] = <span class="hljs-string">""</span> <span class="hljs-keyword">if</span> col==<span class="hljs-string">"description"</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+        df = df[[<span class="hljs-string">"date"</span>,<span class="hljs-string">"amount"</span>,<span class="hljs-string">"category"</span>,<span class="hljs-string">"description"</span>,<span class="hljs-string">"type"</span>]]
+        <span class="hljs-keyword">with</span> self._get_conn() <span class="hljs-keyword">as</span> conn:
+            df.to_sql(<span class="hljs-string">"transactions"</span>, conn, if_exists=<span class="hljs-string">"append"</span>, index=<span class="hljs-literal">False</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_transactions</span><span class="hljs-params">(self,
+                         start_date: Optional[str]=None,
+                         end_date:   Optional[str]=None
+                        )</span> -&gt; pd.DataFrame:</span>
+        sql = <span class="hljs-string">"SELECT * FROM transactions"</span>
+        params = []
+        <span class="hljs-keyword">if</span> start_date <span class="hljs-keyword">or</span> end_date:
+            cond = []
+            <span class="hljs-keyword">if</span> start_date:
+                cond.append(<span class="hljs-string">"date&gt;=?"</span>); params.append(start_date)
+            <span class="hljs-keyword">if</span> end_date:
+                cond.append(<span class="hljs-string">"date&lt;=?"</span>); params.append(end_date)
+            sql += <span class="hljs-string">" WHERE "</span> + <span class="hljs-string">" AND "</span>.join(cond)
+        <span class="hljs-keyword">with</span> self._get_conn() <span class="hljs-keyword">as</span> conn:
+            <span class="hljs-keyword">return</span> pd.read_sql(sql, conn, params=params <span class="hljs-keyword">or</span> <span class="hljs-literal">None</span>, parse_dates=[<span class="hljs-string">"date"</span>])
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">set_budget</span><span class="hljs-params">(self, category: str, limit: float)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+        <span class="hljs-keyword">with</span> self._get_conn() <span class="hljs-keyword">as</span> conn:
+            conn.execute(<span class="hljs-string">"""
+                INSERT INTO budgets(category, monthly_limit)
+                VALUES(?,?)
+                ON CONFLICT(category) DO UPDATE
+                  SET monthly_limit = excluded.monthly_limit
+            """</span>, (category, limit))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_budgets</span><span class="hljs-params">(self)</span> -&gt; pd.DataFrame:</span>
+        <span class="hljs-keyword">with</span> self._get_conn() <span class="hljs-keyword">as</span> conn:
+            <span class="hljs-keyword">return</span> pd.read_sql(<span class="hljs-string">"SELECT category, monthly_limit FROM budgets"</span>, conn)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_spending_summary</span><span class="hljs-params">(self)</span> -&gt; pd.DataFrame:</span>
+        <span class="hljs-keyword">with</span> self._get_conn() <span class="hljs-keyword">as</span> conn:
+            spending = pd.read_sql(
+                <span class="hljs-string">"SELECT category, SUM(amount) AS expense "</span>
+                <span class="hljs-string">"FROM transactions WHERE type='expense' GROUP BY category"</span>,
+                conn
+            )
+            budgets = pd.read_sql(<span class="hljs-string">"SELECT category, monthly_limit FROM budgets"</span>, conn)
+        merged = pd.merge(budgets, spending, on=<span class="hljs-string">"category"</span>, how=<span class="hljs-string">"left"</span>).fillna(<span class="hljs-number">0</span>)
+        merged[<span class="hljs-string">"remaining"</span>] = merged[<span class="hljs-string">"monthly_limit"</span>] + merged[<span class="hljs-string">"expense"</span>]
+        <span class="hljs-keyword">return</span> merged[[<span class="hljs-string">"category"</span>,<span class="hljs-string">"expense"</span>,<span class="hljs-string">"monthly_limit"</span>,<span class="hljs-string">"remaining"</span>]]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">export_to_csv</span><span class="hljs-params">(self, filepath: str)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+        df = self.get_transactions().drop(columns=[<span class="hljs-string">"description"</span>])  <span class="hljs-comment"># drop empty column</span>
+        out = Path(filepath)
+        out.parent.mkdir(parents=<span class="hljs-literal">True</span>, exist_ok=<span class="hljs-literal">True</span>)
+        df.to_csv(out, index=<span class="hljs-literal">False</span>)
+</div></code></pre>
+</details>
+<p><strong>Goal</strong></p>
+<ul>
+<li>Understand the contents of this table.</li>
+<li>Find the address where data is saved.</li>
+</ul>
+<h4 id="2-coretrackerpy">2. core/tracker.py</h4>
+<p><strong>Prompt</strong></p>
+<blockquote>
+<p>The database module (database.py) is done. Write <code>core/tracker.py</code> with these functions:</p>
+<ol>
+<li>add_expense</li>
+<li>add_income</li>
+<li>remove_entry (Deletes the row from <code>transactions</code> table by id)</li>
+<li>list_entries (Returns a DataFrame of the filtered rows)</li>
+</ol>
+<p>Constraints:</p>
+<p>• Import only from <code>database</code> and <code>pandas</code></p>
+<p>• Use type hints and simple docstrings</p>
+<p>• Keep each function under ~15 lines</p>
+<p>Format:</p>
+<p>• Wrap your answer in a complete <code>core/tracker.py</code> code block</p>
+</blockquote>
+<details>
+<summary><code>core/tracker.py</code></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Optional
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> sqlite3
+<span class="hljs-keyword">from</span> database <span class="hljs-keyword">import</span> ExpenseDatabase
+
+db = ExpenseDatabase()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_expense</span><span class="hljs-params">(date: str, amount: float, category: str, description: str)</span> -&gt; int:</span>
+    <span class="hljs-string">"""Add an expense transaction and return its ID."""</span>
+    data = {
+        <span class="hljs-string">"date"</span>: date,
+        <span class="hljs-string">"amount"</span>: -abs(float(amount)),
+        <span class="hljs-string">"category"</span>: category,
+        <span class="hljs-string">"description"</span>: description,
+        <span class="hljs-string">"type"</span>: <span class="hljs-string">"expense"</span>
+    }
+    db.add_transaction(data)
+    <span class="hljs-keyword">return</span> _get_last_id()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_income</span><span class="hljs-params">(date: str, amount: float, category: str, description: str)</span> -&gt; int:</span>
+    <span class="hljs-string">"""Add an income transaction and return its ID."""</span>
+    data = {
+        <span class="hljs-string">"date"</span>: date,
+        <span class="hljs-string">"amount"</span>: abs(float(amount)),
+        <span class="hljs-string">"category"</span>: category,
+        <span class="hljs-string">"description"</span>: description,
+        <span class="hljs-string">"type"</span>: <span class="hljs-string">"income"</span>
+    }
+    db.add_transaction(data)
+    <span class="hljs-keyword">return</span> _get_last_id()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_transaction</span><span class="hljs-params">(tx_id: int)</span> -&gt; bool:</span>
+    <span class="hljs-string">"""Remove a transaction by ID."""</span>
+    <span class="hljs-keyword">with</span> sqlite3.connect(db.db_path) <span class="hljs-keyword">as</span> conn:
+        <span class="hljs-keyword">return</span> conn.execute(
+            <span class="hljs-string">"DELETE FROM transactions WHERE id = ?"</span>, (tx_id,)
+        ).rowcount &gt; <span class="hljs-number">0</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_transactions</span><span class="hljs-params">(
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+    category: Optional[str] = None
+)</span> -&gt; pd.DataFrame:</span>
+    <span class="hljs-string">"""Retrieve transactions with optional filters."""</span>
+    df = db.get_transactions(start_date, end_date)
+    <span class="hljs-keyword">return</span> df[df[<span class="hljs-string">"category"</span>] == category] <span class="hljs-keyword">if</span> category <span class="hljs-keyword">else</span> df
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_last_id</span><span class="hljs-params">()</span> -&gt; int:</span>
+    <span class="hljs-string">"""Internal helper to get last inserted ID."""</span>
+    <span class="hljs-keyword">with</span> sqlite3.connect(db.db_path) <span class="hljs-keyword">as</span> conn:
+        <span class="hljs-keyword">return</span> conn.execute(<span class="hljs-string">"SELECT last_insert_rowid()"</span>).fetchone()[<span class="hljs-number">0</span>]
+</div></code></pre>
+</details>
+<p>Now we need to make sure that the code works properly. Therefore, it is necessary now to make a prompt that asks ChatGPT to generate a comprehensive test script.</p>
+<blockquote>
+<p>I have two modules:</p>
+<ul>
+<li>database.py defines ExpenseDatabase</li>
+<li>core/tracker.py defines add_expense, add_income, list_entries, remove_entry</li>
+</ul>
+<p>Please generate a file named <code>test.py</code> that:</p>
+<ul>
+<li>Create an ExpenseDatabase instance.</li>
+<li>Add two transactions (one expense, one income).</li>
+<li>Query all transactions.</li>
+<li>Set budgets for [Catagory1] and [Catagory2]and print budgets.</li>
+<li>Print spending summary and alert.</li>
+<li>Export all transactions to <code>data/transactions_export.csv</code> and print confirmation.</li>
+</ul>
+</blockquote>
+<details>
+<summary><strong>Reference Code</strong></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> database <span class="hljs-keyword">import</span> ExpenseDatabase
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_table</span><span class="hljs-params">(df: pd.DataFrame, title: str)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    print(<span class="hljs-string">f"\n=== <span class="hljs-subst">{title}</span> ==="</span>)
+    <span class="hljs-keyword">if</span> df.empty:
+        print(<span class="hljs-string">"No data"</span>)
+    <span class="hljs-keyword">else</span>:
+        print(df.to_string(index=<span class="hljs-literal">False</span>))
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test_database</span><span class="hljs-params">()</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    print(<span class="hljs-string">"=== Expense Database Test ==="</span>)
+    db = ExpenseDatabase()
+
+    <span class="hljs-comment"># 1. Add sample transactions</span>
+    print(<span class="hljs-string">"\n1. Adding Transactions..."</span>)
+    samples = [
+        {<span class="hljs-string">"date"</span>:<span class="hljs-string">"2023-01-10"</span>,<span class="hljs-string">"amount"</span>:<span class="hljs-number">-150.0</span>,<span class="hljs-string">"category"</span>:<span class="hljs-string">"food"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"expense"</span>},
+        {<span class="hljs-string">"date"</span>:<span class="hljs-string">"2023-01-15"</span>,<span class="hljs-string">"amount"</span>:<span class="hljs-number">5000.0</span>,<span class="hljs-string">"category"</span>:<span class="hljs-string">"salary"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"income"</span>},
+        {<span class="hljs-string">"date"</span>:<span class="hljs-string">"2023-01-20"</span>,<span class="hljs-string">"amount"</span>:<span class="hljs-number">-200.0</span>,<span class="hljs-string">"category"</span>:<span class="hljs-string">"transport"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"expense"</span>}
+    ]
+    <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> samples:
+        db.add_transaction(t)
+    print_table(db.get_transactions(), <span class="hljs-string">"All Transactions"</span>)
+
+    <span class="hljs-comment"># 2. Set budgets</span>
+    print(<span class="hljs-string">"\n2. Setting Budgets..."</span>)
+    db.set_budget(<span class="hljs-string">"food"</span>,<span class="hljs-number">500.0</span>)
+    db.set_budget(<span class="hljs-string">"transport"</span>,<span class="hljs-number">300.0</span>)
+    print_table(db.get_budgets(), <span class="hljs-string">"Current Budgets"</span>)
+
+    <span class="hljs-comment"># 3. Spending summary</span>
+    print(<span class="hljs-string">"\n3. Spending Summary:"</span>)
+    summary = db.get_spending_summary()
+    print_table(summary, <span class="hljs-string">"Detailed Summary"</span>)
+
+    <span class="hljs-comment"># 4. Export</span>
+    print(<span class="hljs-string">"\n4. Exporting data..."</span>)
+    export_path = <span class="hljs-string">"data/transactions.csv"</span>
+    db.export_to_csv(export_path)
+    print(<span class="hljs-string">f"Data exported to <span class="hljs-subst">{export_path}</span>"</span>)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># ensure data folder exists</span>
+    Path(<span class="hljs-string">"data"</span>).mkdir(exist_ok=<span class="hljs-literal">True</span>)
+    test_database()
+    print(<span class="hljs-string">"\nAll tests completed!"</span>)
+</div></code></pre>
+</details>
+<p><strong>Goal</strong></p>
+<ul>
+<li>
+<p>Able to understand and modify error reporting with AI.</p>
+<p>Hint1: You need to delete the original <code>data.db</code> if you modify <code>database.py</code>.</p>
+<p>Hint2: Missing some libraries can lead to compilation errors. (You May need use <code>pip</code> to install them.)</p>
+</li>
+<li>
+<p>Judge the correctness of the test.</p>
+<p>Hint: Judging whether the answer is correct by calculation.</p>
+</li>
+<li>
+<p>Ability to optimize code (e.g. reduce redundancy in fields)</p>
+<p>Hint: If you can't understand the modified code fragment well, you can try to ask AI to give the complete code.</p>
+</li>
+</ul>
+<p>The test reference is shown in the figure.</p>
+<p><img src="readme2.png" alt="2"></p>
+<h4 id="3corebudgetpy--reportspy">3.core/budget.py &amp; reports.py</h4>
+<p>Try to use your own words to prompt AI and test the codes. Here are reference codes.</p>
+<details>
+<summary><code>core/budget.py</code></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> sqlite3
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Tuple
+<span class="hljs-keyword">from</span> database <span class="hljs-keyword">import</span> ExpenseDatabase
+
+db = ExpenseDatabase()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">set_category_budget</span><span class="hljs-params">(category: str, limit: float)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    <span class="hljs-string">"""
+    Set or update the monthly budget for a category.
+    """</span>
+    db.set_budget(category, limit)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_category_budget</span><span class="hljs-params">(category: str)</span> -&gt; float:</span>
+    <span class="hljs-string">"""
+    Return the monthly_limit for the given category, or 0.0 if not defined.
+    """</span>
+    budgets = db.get_budgets()
+    row = budgets[budgets[<span class="hljs-string">"category"</span>] == category]
+    <span class="hljs-keyword">return</span> float(row[<span class="hljs-string">"monthly_limit"</span>].iloc[<span class="hljs-number">0</span>]) <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> row.empty <span class="hljs-keyword">else</span> <span class="hljs-number">0.0</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_category_budget</span><span class="hljs-params">(category: str)</span> -&gt; bool:</span>
+    <span class="hljs-string">"""
+    Remove a budget entry by category. Return True if deleted.
+    """</span>
+    conn = sqlite3.connect(db.db_path)
+    cur = conn.cursor()
+    cur.execute(<span class="hljs-string">"DELETE FROM budgets WHERE category = ?"</span>, (category,))
+    conn.commit()
+    deleted = cur.rowcount &gt; <span class="hljs-number">0</span>
+    conn.close()
+    <span class="hljs-keyword">return</span> deleted
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">list_budgets</span><span class="hljs-params">()</span> -&gt; pd.DataFrame:</span>
+    <span class="hljs-string">"""
+    Return all budget entries as a DataFrame.
+    """</span>
+    <span class="hljs-keyword">return</span> db.get_budgets()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">check_budget</span><span class="hljs-params">(category: str)</span> -&gt; Tuple[bool, float]:</span>
+    <span class="hljs-string">"""
+    Check if a category is over its budget.
+    Returns (is_over_budget, remaining_amount).
+    """</span>
+    summary = db.get_spending_summary()
+    row = summary[summary[<span class="hljs-string">"category"</span>] == category]
+    <span class="hljs-keyword">if</span> row.empty:
+        <span class="hljs-keyword">return</span> (<span class="hljs-literal">False</span>, <span class="hljs-number">0.0</span>)
+    rem = float(row[<span class="hljs-string">"remaining"</span>].iloc[<span class="hljs-number">0</span>])
+    <span class="hljs-keyword">return</span> (rem &lt; <span class="hljs-number">0</span>, rem)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">budget_alerts</span><span class="hljs-params">(threshold: float = <span class="hljs-number">0.0</span>)</span> -&gt; pd.DataFrame:</span>
+    <span class="hljs-string">"""
+    Return categories whose remaining budget is &lt;= threshold.
+    """</span>
+    summary = db.get_spending_summary()
+    <span class="hljs-keyword">return</span> summary[summary[<span class="hljs-string">"remaining"</span>] &lt;= threshold]
+</div></code></pre>
+</details>
+<details>
+<summary><code>core/reports.py</code></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Dict, Any
+<span class="hljs-keyword">from</span> database <span class="hljs-keyword">import</span> ExpenseDatabase
+<span class="hljs-keyword">from</span> core.budget <span class="hljs-keyword">import</span> get_category_budget
+
+db = ExpenseDatabase()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate_monthly_report</span><span class="hljs-params">(month: str)</span> -&gt; Dict[str, float]:</span>
+    <span class="hljs-string">"""
+    Generate a report for a given month with total income, expense, and net.
+    Month format: "YYYY-MM"
+    """</span>
+    start_date = <span class="hljs-string">f"<span class="hljs-subst">{month}</span>-01"</span>;end_date = <span class="hljs-string">f"<span class="hljs-subst">{month}</span>-31"</span>
+    df = db.get_transactions(start_date=start_date, end_date=end_date)
+    income = df[df[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"income"</span>][<span class="hljs-string">"amount"</span>].sum()
+    expense = df[df[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"expense"</span>][<span class="hljs-string">"amount"</span>].sum()
+    net = income + expense  <span class="hljs-comment"># expense is negative</span>
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">"income"</span>: income, <span class="hljs-string">"expense"</span>: expense, <span class="hljs-string">"net"</span>: net}
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate_category_report</span><span class="hljs-params">(month: str)</span> -&gt; pd.DataFrame:</span>
+    <span class="hljs-string">"""
+    Generate a category-wise report for a given month.
+    Returns DataFrame with columns: category, income, expense, net
+    """</span>
+    start_date = <span class="hljs-string">f"<span class="hljs-subst">{month}</span>-01"</span>;end_date = <span class="hljs-string">f"<span class="hljs-subst">{month}</span>-31"</span>
+    df = db.get_transactions(start_date=start_date, end_date=end_date)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pivot_and_format</span><span class="hljs-params">(category_type: str)</span> -&gt; pd.DataFrame:</span>
+        sub_df = df[df[<span class="hljs-string">"type"</span>] == category_type]
+        <span class="hljs-keyword">return</span> sub_df.groupby(<span class="hljs-string">"category"</span>)[<span class="hljs-string">"amount"</span>].sum().reset_index().rename(
+            columns={<span class="hljs-string">"amount"</span>: category_type}
+        )
+    income_df = pivot_and_format(<span class="hljs-string">"income"</span>)
+    expense_df = pivot_and_format(<span class="hljs-string">"expense"</span>)
+    merged = pd.merge(income_df, expense_df, on=<span class="hljs-string">"category"</span>, how=<span class="hljs-string">"outer"</span>).fillna(<span class="hljs-number">0</span>)
+    merged[<span class="hljs-string">"net"</span>] = merged[<span class="hljs-string">"income"</span>] + merged[<span class="hljs-string">"expense"</span>]
+    <span class="hljs-keyword">return</span> merged[[<span class="hljs-string">"category"</span>, <span class="hljs-string">"income"</span>, <span class="hljs-string">"expense"</span>, <span class="hljs-string">"net"</span>]]
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">generate_budget_report</span><span class="hljs-params">(month: str)</span> -&gt; pd.DataFrame:</span>
+    <span class="hljs-string">"""
+    Generate a budget vs actual spending report.
+    Returns DataFrame with columns: category, limit, spent, remaining
+    """</span>
+    budget_df = db.get_budgets()
+    <span class="hljs-keyword">if</span> budget_df.empty:
+        <span class="hljs-keyword">return</span> pd.DataFrame(columns=[<span class="hljs-string">"category"</span>, <span class="hljs-string">"limit"</span>, <span class="hljs-string">"spent"</span>, <span class="hljs-string">"remaining"</span>])
+    <span class="hljs-comment"># Get spending for the month</span>
+    start_date = <span class="hljs-string">f"<span class="hljs-subst">{month}</span>-01"</span>;end_date = <span class="hljs-string">f"<span class="hljs-subst">{month}</span>-31"</span>
+    trans_df = db.get_transactions(start_date=start_date, end_date=end_date)
+    spending = trans_df[trans_df[<span class="hljs-string">"type"</span>] == <span class="hljs-string">"expense"</span>].groupby(<span class="hljs-string">"category"</span>)[<span class="hljs-string">"amount"</span>].sum()
+    spending.name = <span class="hljs-string">"spent"</span>
+    <span class="hljs-comment"># Merge with budgets and fill missing spending as 0</span>
+    report = budget_df.set_index(<span class="hljs-string">"category"</span>).join(spending).fillna(<span class="hljs-number">0</span>)
+    report[<span class="hljs-string">"remaining"</span>] = report[<span class="hljs-string">"monthly_limit"</span>] + report[<span class="hljs-string">"spent"</span>]  <span class="hljs-comment"># expense is negative</span>
+    report = report.reset_index()
+    report = report.rename(columns={<span class="hljs-string">"monthly_limit"</span>: <span class="hljs-string">"limit"</span>})
+    <span class="hljs-keyword">return</span> report[[<span class="hljs-string">"category"</span>, <span class="hljs-string">"limit"</span>, <span class="hljs-string">"spent"</span>, <span class="hljs-string">"remaining"</span>]]
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_monthly_trend</span><span class="hljs-params">(year: str)</span> -&gt; pd.DataFrame:</span>
+    <span class="hljs-string">"""
+    Get monthly income, expense, and net for a given year.
+    Returns DataFrame with columns: month, income, expense, net
+    """</span>
+    df = db.get_transactions()
+    df[<span class="hljs-string">"month"</span>] = pd.to_datetime(df[<span class="hljs-string">"date"</span>]).dt.to_period(<span class="hljs-string">"M"</span>).astype(str)
+    trend = df.pivot_table(
+        index=<span class="hljs-string">"month"</span>,
+        columns=<span class="hljs-string">"type"</span>,
+        values=<span class="hljs-string">"amount"</span>,
+        aggfunc=<span class="hljs-string">"sum"</span>
+    ).fillna(<span class="hljs-number">0</span>)
+    trend[<span class="hljs-string">"net"</span>] = trend[<span class="hljs-string">"income"</span>] + trend[<span class="hljs-string">"expense"</span>]
+    trend = trend.reset_index()
+    trend = trend[trend[<span class="hljs-string">"month"</span>].str.startswith(year)]
+    <span class="hljs-keyword">return</span> trend[[<span class="hljs-string">"month"</span>, <span class="hljs-string">"income"</span>, <span class="hljs-string">"expense"</span>, <span class="hljs-string">"net"</span>]]
+</div></code></pre>
+</details>
+<h4 id="4-data-visualization">4. Data Visualization</h4>
+<p>Visualizing financial data is necessary in the project, we choose to use bar/pie/plot to analyze data.</p>
+<p><strong>Prompt</strong></p>
+<blockquote>
+<p>Please create a new file: <code>gui/vis.py</code> with functions to visualize financial data. Please include these functions:</p>
+<ol>
+<li>plot_monthly_summary(month: str)       - Bar chart showing income vs expense for the given month</li>
+<li>plot_category_spending(month: str)       - Pie chart showing spending distribution by category</li>
+<li>plot_budget_status(month: str)       - Horizontal bar chart showing budget vs actual spending</li>
+<li>plot_monthly_trend(year: str)       - Line chart showing income, expense, and net over months in a year</li>
+</ol>
+</blockquote>
+<details>
+<summary><strong>Reference Code</strong></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">from</span> core.reports <span class="hljs-keyword">import</span> (
+    generate_monthly_report,
+    generate_category_report,
+    generate_budget_report,
+    get_monthly_trend
+)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_monthly_summary</span><span class="hljs-params">(month: str)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    <span class="hljs-string">"""
+    Bar chart showing income vs expense for a given month.
+    """</span>
+    report = generate_monthly_report(month)
+    data = {<span class="hljs-string">"Income"</span>: report[<span class="hljs-string">"income"</span>], <span class="hljs-string">"Expense"</span>: abs(report[<span class="hljs-string">"expense"</span>])}
+    plt.figure(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">4</span>))
+    sns.barplot(x=list(data.keys()), y=list(data.values()), palette=<span class="hljs-string">"viridis"</span>)
+    plt.ylabel(<span class="hljs-string">"Amount (USD)"</span>)
+    plt.title(<span class="hljs-string">f"Monthly Summary - <span class="hljs-subst">{month}</span>"</span>)
+    plt.tight_layout()
+    plt.show()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_category_spending</span><span class="hljs-params">(month: str)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    <span class="hljs-string">"""
+    Pie chart showing spending distribution by category.
+    """</span>
+    df = generate_category_report(month)
+    expense_df = df[df[<span class="hljs-string">"expense"</span>] &lt; <span class="hljs-number">0</span>]
+    <span class="hljs-keyword">if</span> expense_df.empty:
+        print(<span class="hljs-string">"No expense data to plot."</span>)
+        <span class="hljs-keyword">return</span>
+    plt.figure(figsize=(<span class="hljs-number">7</span>, <span class="hljs-number">7</span>))
+    plt.pie(
+        -expense_df[<span class="hljs-string">"expense"</span>], labels=expense_df[<span class="hljs-string">"category"</span>], autopct=<span class="hljs-string">"%1.1f%%"</span>, startangle=<span class="hljs-number">140</span>
+    )
+    plt.title(<span class="hljs-string">f"Spending Distribution - <span class="hljs-subst">{month}</span>"</span>)
+    plt.axis(<span class="hljs-string">"equal"</span>)
+    plt.tight_layout()
+    plt.show()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_budget_status</span><span class="hljs-params">(month: str)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    <span class="hljs-string">"""
+    Horizontal bar chart comparing budget vs actual spending.
+    """</span>
+    df = generate_budget_report(month)
+    <span class="hljs-keyword">if</span> df.empty:
+        print(<span class="hljs-string">"No budget data to plot."</span>)
+        <span class="hljs-keyword">return</span>
+    df[<span class="hljs-string">"spent"</span>] = -df[<span class="hljs-string">"spent"</span>]
+    df = df.sort_values(by=<span class="hljs-string">"spent"</span>, ascending=<span class="hljs-literal">False</span>)
+    plt.figure(figsize=(<span class="hljs-number">8</span>, <span class="hljs-number">5</span>))
+    sns.barplot(x=<span class="hljs-string">"spent"</span>, y=<span class="hljs-string">"category"</span>, data=df, color=<span class="hljs-string">"salmon"</span>, label=<span class="hljs-string">"Spent"</span>)
+    sns.barplot(x=<span class="hljs-string">"limit"</span>, y=<span class="hljs-string">"category"</span>, data=df, color=<span class="hljs-string">"lightgreen"</span>, alpha=<span class="hljs-number">0.6</span>, label=<span class="hljs-string">"Budget"</span>)
+    plt.xlabel(<span class="hljs-string">"Amount (USD)"</span>)
+    plt.ylabel(<span class="hljs-string">"Category"</span>)
+    plt.title(<span class="hljs-string">f"Budget vs Spending - <span class="hljs-subst">{month}</span>"</span>)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_monthly_trend</span><span class="hljs-params">(year: str)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+    <span class="hljs-string">"""
+    Line chart showing income, expense, and net over the months in the year.
+    """</span>
+    df = get_monthly_trend(year)
+    <span class="hljs-keyword">if</span> df.empty:
+        print(<span class="hljs-string">"No trend data to plot."</span>)
+        <span class="hljs-keyword">return</span>
+    plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>))
+    sns.lineplot(x=<span class="hljs-string">"month"</span>, y=<span class="hljs-string">"income"</span>, data=df, label=<span class="hljs-string">"Income"</span>, marker=<span class="hljs-string">"o"</span>)
+    sns.lineplot(x=<span class="hljs-string">"month"</span>, y=<span class="hljs-string">"expense"</span>, data=df, label=<span class="hljs-string">"Expense"</span>, marker=<span class="hljs-string">"o"</span>)
+    sns.lineplot(x=<span class="hljs-string">"month"</span>, y=<span class="hljs-string">"net"</span>, data=df, label=<span class="hljs-string">"Net"</span>, marker=<span class="hljs-string">"o"</span>)
+    plt.xticks(rotation=<span class="hljs-number">45</span>)
+    plt.ylabel(<span class="hljs-string">"Amount (USD)"</span>)
+    plt.title(<span class="hljs-string">f"Monthly Financial Trend - <span class="hljs-subst">{year}</span>"</span>)
+    plt.tight_layout()
+    plt.legend()
+    plt.show()
+</div></code></pre>
+</details>
+<p>As the number of modules increases, testing becomes more complex. At this point, encapsulating tests effectively becomes even more crucial. You can test like this in the <code>test.py</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Run all test modules respectively</span>
+    test_database_operations()
+    test_budget_module()
+    test_report_module()
+    test_visualization()
+</div></code></pre>
+<p>Also, we can ask AI to generate an interactive version where users can select operations through a numbered menu to perform CRUD (Create, Read, Update, Delete) and reporting functions, effectively implementing 'low-end visualization.</p>
+<details>
+<summary><strong>Reference Code</strong></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+
+<span class="hljs-keyword">from</span> database <span class="hljs-keyword">import</span> ExpenseDatabase
+<span class="hljs-keyword">from</span> core.tracker <span class="hljs-keyword">import</span> add_expense, add_income, get_transactions, remove_transaction
+<span class="hljs-keyword">from</span> core.budget <span class="hljs-keyword">import</span> (
+    set_category_budget,
+    get_category_budget,
+    remove_category_budget,
+    list_budgets,
+    check_budget,
+    budget_alerts
+)
+<span class="hljs-keyword">from</span> core.reports <span class="hljs-keyword">import</span> (
+    generate_monthly_report,
+    generate_category_report,
+    generate_budget_report,
+    get_monthly_trend
+)
+
+EXPORT_CSV = <span class="hljs-string">"data/transactions_export.csv"</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_table</span><span class="hljs-params">(df: pd.DataFrame, title: str = <span class="hljs-string">""</span>)</span>:</span>
+    <span class="hljs-keyword">if</span> title:
+        print(<span class="hljs-string">f"\n=== <span class="hljs-subst">{title}</span> ==="</span>)
+    <span class="hljs-keyword">if</span> df.empty:
+        print(<span class="hljs-string">"No data"</span>)
+    <span class="hljs-keyword">else</span>:
+        print(df.to_string(index=<span class="hljs-literal">False</span>))
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reset_test_environment</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"""
+    Clear all data in the database tables (no file deletion)
+    and remove old CSV export.
+    """</span>
+    print(<span class="hljs-string">"🔄 Resetting test environment..."</span>)
+    db = ExpenseDatabase()
+    db.clear_all()  
+    print(<span class="hljs-string">"All tables cleared."</span>)
+    <span class="hljs-keyword">if</span> os.path.exists(EXPORT_CSV):
+        os.remove(EXPORT_CSV)
+        print(<span class="hljs-string">f"Removed old CSV: <span class="hljs-subst">{EXPORT_CSV}</span>"</span>)
+    Path(<span class="hljs-string">"data"</span>).mkdir(exist_ok=<span class="hljs-literal">True</span>)
+    Path(<span class="hljs-string">"resources"</span>).mkdir(exist_ok=<span class="hljs-literal">True</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">menu</span><span class="hljs-params">()</span>:</span>
+    print(<span class="hljs-string">"""
+Please select an option:
+1. Add expense
+2. Add income
+3. List transactions
+4. Remove a transaction
+5. Export to CSV
+6. Set budget
+7. List budgets
+8. Remove a budget
+9. Show spending summary
+10. Monthly report
+11. Category report
+12. Budget report
+13. Yearly trend report
+0. Exit
+"""</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    reset_test_environment()
+    db = ExpenseDatabase()
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        menu()
+        choice = input(<span class="hljs-string">"Enter choice: "</span>).strip()
+        <span class="hljs-keyword">if</span> choice == <span class="hljs-string">"0"</span>:
+            print(<span class="hljs-string">"Goodbye!"</span>)
+            <span class="hljs-keyword">break</span>
+        <span class="hljs-keyword">try</span>:
+            <span class="hljs-keyword">if</span> choice == <span class="hljs-string">"1"</span>:
+                d   = input(<span class="hljs-string">"Date (YYYY-MM-DD): "</span>).strip()
+                amt = float(input(<span class="hljs-string">"Amount: "</span>))
+                cat = input(<span class="hljs-string">"Category: "</span>).strip()
+                desc= input(<span class="hljs-string">"Description: "</span>).strip()
+                add_expense(d, amt, cat, desc)
+                print(<span class="hljs-string">"Expense added."</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"2"</span>:
+                d   = input(<span class="hljs-string">"Date (YYYY-MM-DD): "</span>).strip()
+                amt = float(input(<span class="hljs-string">"Amount: "</span>))
+                cat = input(<span class="hljs-string">"Category: "</span>).strip()
+                desc= input(<span class="hljs-string">"Description: "</span>).strip()
+                add_income(d, amt, cat, desc)
+                print(<span class="hljs-string">"Income added."</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"3"</span>:
+                df = get_transactions()
+                print_table(df, <span class="hljs-string">"All Transactions"</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"4"</span>:
+                tx_id = int(input(<span class="hljs-string">"Transaction ID to remove: "</span>))
+                ok = remove_transaction(tx_id)
+                print(<span class="hljs-string">"Removed."</span> <span class="hljs-keyword">if</span> ok <span class="hljs-keyword">else</span> <span class="hljs-string">"ID not found."</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"5"</span>:
+                db.export_to_csv(EXPORT_CSV)
+                print(<span class="hljs-string">f"Exported to <span class="hljs-subst">{EXPORT_CSV}</span>"</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"6"</span>:
+                cat = input(<span class="hljs-string">"Budget Category: "</span>).strip()
+                lim = float(input(<span class="hljs-string">"Monthly limit: "</span>))
+                set_category_budget(cat, lim)
+                print(<span class="hljs-string">"Budget set."</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"7"</span>:
+                df = list_budgets()
+                print_table(df, <span class="hljs-string">"Budgets"</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"8"</span>:
+                cat = input(<span class="hljs-string">"Budget category to remove: "</span>).strip()
+                ok = remove_category_budget(cat)
+                print(<span class="hljs-string">"Removed."</span> <span class="hljs-keyword">if</span> ok <span class="hljs-keyword">else</span> <span class="hljs-string">"Not found."</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"9"</span>:
+                df = db.get_spending_summary()
+                print_table(df, <span class="hljs-string">"Spending Summary"</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"10"</span>:
+                month = input(<span class="hljs-string">"Month (YYYY-MM): "</span>).strip()
+                rep   = generate_monthly_report(month)
+                print(rep)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"11"</span>:
+                month = input(<span class="hljs-string">"Month (YYYY-MM): "</span>).strip()
+                df = generate_category_report(month)
+                print_table(df, <span class="hljs-string">"Category Report"</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"12"</span>:
+                month = input(<span class="hljs-string">"Month (YYYY-MM): "</span>).strip()
+                df = generate_budget_report(month)
+                print_table(df, <span class="hljs-string">"Budget Report"</span>)
+            <span class="hljs-keyword">elif</span> choice == <span class="hljs-string">"13"</span>:
+                year = input(<span class="hljs-string">"Year (YYYY): "</span>).strip()
+                df = get_monthly_trend(year)
+                print_table(df, <span class="hljs-string">f"Trend for <span class="hljs-subst">{year}</span>"</span>)
+            <span class="hljs-keyword">else</span>:
+                print(<span class="hljs-string">"Invalid choice, try again."</span>)
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            print(<span class="hljs-string">"Error:"</span>, e)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()
+</div></code></pre>
+</details>
+<p><img src="readme9.png" alt="9"></p>
+<h4 id="5-gui-design">*5. GUI Design</h4>
+<details>
+<summary>*</summary>
+<strong>This part is not necessary for students in this project. The interactive version above is enough to show all the function.</strong>
+</details>
+<p>The final step is to package this code into a complete desktop accounting tool with a GUI design.</p>
+<blockquote>
+<p>Build a simple PyQt5 GUI that ties everything together and embeds Matplotlib charts.</p>
+</blockquote>
+<h4 id="6-debug--optimization">6. Debug &amp; Optimization</h4>
+<p><strong>Example</strong></p>
+<blockquote>
+<p>Here’s the initial interface I got—it looks good, but testing revealed a few issues.</p>
+<p><img src="readme3.png" alt="3">
+<img src="readme4.png" alt="4"></p>
+<ul>
+<li>
+<p>Adding a new category will cause an error. New category should be added in the database and the table should be refreshed immediately.</p>
+</li>
+<li>
+<p>Adding empty field entries will cause an error.</p>
+</li>
+<li>
+<p>Transaction date should not exceed the current date.</p>
+</li>
+<li>
+<p>Click the button could cause errors.</p>
+</li>
+<li>
+<p>Recommend implementing select-and-delete functionality for Budgets.</p>
+</li>
+<li>
+<p>......</p>
+</li>
+</ul>
+</blockquote>
+<p>Continuously improve in the process of interaction, so as to obtain the best version.</p>
+<details>
+<summary><code>main.py</code></summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">from</span> PyQt5 <span class="hljs-keyword">import</span> QtWidgets, QtCore
+<span class="hljs-keyword">from</span> PyQt5.QtWidgets <span class="hljs-keyword">import</span> (
+    QApplication, QMainWindow, QWidget, QFormLayout, QHBoxLayout,
+    QVBoxLayout, QLabel, QLineEdit, QComboBox, QDateEdit,
+    QDoubleSpinBox, QPushButton, QTableView, QMessageBox
+)
+<span class="hljs-keyword">from</span> PyQt5.QtCore <span class="hljs-keyword">import</span> Qt, QDate
+<span class="hljs-keyword">from</span> matplotlib.backends.backend_qt5agg <span class="hljs-keyword">import</span> FigureCanvasQTAgg <span class="hljs-keyword">as</span> FigureCanvas
+<span class="hljs-keyword">from</span> database <span class="hljs-keyword">import</span> ExpenseDatabase
+<span class="hljs-keyword">from</span> core.tracker <span class="hljs-keyword">import</span> add_expense, add_income, get_transactions, remove_transaction
+<span class="hljs-keyword">from</span> core.budget <span class="hljs-keyword">import</span> set_category_budget, list_budgets, remove_category_budget
+<span class="hljs-keyword">from</span> core.reports <span class="hljs-keyword">import</span> (
+    generate_monthly_report, generate_category_report,
+    generate_budget_report, get_monthly_trend
+)
+
+sns.set_style(<span class="hljs-string">"whitegrid"</span>)
+DB = ExpenseDatabase()
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PandasModel</span><span class="hljs-params">(QtCore.QAbstractTableModel)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, df=pd.DataFrame<span class="hljs-params">()</span>, parent=None)</span>:</span>
+        super().__init__(parent)
+        self._df = df.reset_index(drop=<span class="hljs-literal">True</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update</span><span class="hljs-params">(self, df)</span>:</span>
+        self.beginResetModel()
+        self._df = df.reset_index(drop=<span class="hljs-literal">True</span>)
+        self.endResetModel()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rowCount</span><span class="hljs-params">(self, parent=None)</span>:</span>
+        <span class="hljs-keyword">return</span> len(self._df)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">columnCount</span><span class="hljs-params">(self, parent=None)</span>:</span>
+        <span class="hljs-keyword">return</span> len(self._df.columns)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">data</span><span class="hljs-params">(self, index, role=Qt.DisplayRole)</span>:</span>
+        <span class="hljs-keyword">if</span> role == Qt.DisplayRole:
+            <span class="hljs-keyword">return</span> str(self._df.iat[index.row(), index.column()])
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">headerData</span><span class="hljs-params">(self, section, orientation, role=Qt.DisplayRole)</span>:</span>
+        <span class="hljs-keyword">if</span> role == Qt.DisplayRole:
+            <span class="hljs-keyword">if</span> orientation == Qt.Horizontal:
+                <span class="hljs-keyword">return</span> self._df.columns[section]
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-keyword">return</span> str(section)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainWindow</span><span class="hljs-params">(QMainWindow)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super().__init__()
+        self.setWindowTitle(<span class="hljs-string">"Smart Expense Tracker"</span>)
+        self.resize(<span class="hljs-number">900</span>, <span class="hljs-number">600</span>)
+
+        tabs = QtWidgets.QTabWidget()
+        tabs.addTab(self._make_transactions_tab(), <span class="hljs-string">"Transactions"</span>)
+        tabs.addTab(self._make_budgets_tab(), <span class="hljs-string">"Budgets"</span>)
+        tabs.addTab(self._make_reports_tab(), <span class="hljs-string">"Reports"</span>)
+        tabs.addTab(self._make_visual_tab(), <span class="hljs-string">"Visualization"</span>)
+        self.setCentralWidget(tabs)
+
+        <span class="hljs-comment"># Populate month/category lists</span>
+        self._update_months()
+        self._update_categories()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_show_error</span><span class="hljs-params">(self, msg)</span>:</span>
+        QMessageBox.critical(self, <span class="hljs-string">"Error"</span>, msg)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_update_months</span><span class="hljs-params">(self)</span>:</span>
+        df = get_transactions()
+        months = sorted(pd.to_datetime(df[<span class="hljs-string">"date"</span>]).dt.to_period(<span class="hljs-string">"M"</span>).astype(str).unique().tolist())
+        <span class="hljs-keyword">if</span> hasattr(self, <span class="hljs-string">"rmonth_cb"</span>):
+            current = self.rmonth_cb.currentText()
+            self.rmonth_cb.clear()
+            self.rmonth_cb.addItems(months)
+            <span class="hljs-keyword">if</span> current <span class="hljs-keyword">in</span> months:
+                self.rmonth_cb.setCurrentText(current)
+        <span class="hljs-keyword">if</span> hasattr(self, <span class="hljs-string">"vmonth_cb"</span>):
+            current = self.vmonth_cb.currentText()
+            self.vmonth_cb.clear()
+            self.vmonth_cb.addItems(months)
+            <span class="hljs-keyword">if</span> current <span class="hljs-keyword">in</span> months:
+                self.vmonth_cb.setCurrentText(current)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_update_categories</span><span class="hljs-params">(self)</span>:</span>
+        tx_cats = set(get_transactions()[<span class="hljs-string">"category"</span>].dropna().unique())
+        bg_df = list_budgets()
+        bg_cats = set(bg_df[<span class="hljs-string">"category"</span>].dropna().unique()) <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> bg_df.empty <span class="hljs-keyword">else</span> set()
+        all_cats = sorted(tx_cats | bg_cats)
+        <span class="hljs-keyword">if</span> hasattr(self, <span class="hljs-string">"cat_cb"</span>):
+            current = self.cat_cb.currentText()
+            self.cat_cb.clear()
+            self.cat_cb.addItems(all_cats)
+            <span class="hljs-keyword">if</span> current <span class="hljs-keyword">in</span> all_cats:
+                self.cat_cb.setCurrentText(current)
+        <span class="hljs-keyword">if</span> hasattr(self, <span class="hljs-string">"bcat_cb"</span>):
+            current = self.bcat_cb.currentText()
+            self.bcat_cb.clear()
+            self.bcat_cb.addItems(all_cats)
+            <span class="hljs-keyword">if</span> current <span class="hljs-keyword">in</span> all_cats:
+                self.bcat_cb.setCurrentText(current)
+
+    <span class="hljs-comment"># Transactions Tab</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_make_transactions_tab</span><span class="hljs-params">(self)</span>:</span>
+        w = QWidget()
+        layout = QVBoxLayout()
+        form = QFormLayout()
+
+        self.date_edit = QDateEdit(QDate.currentDate())
+        self.date_edit.setCalendarPopup(<span class="hljs-literal">True</span>)
+        self.amt_spin = QDoubleSpinBox()
+        self.amt_spin.setMaximum(<span class="hljs-number">1e6</span>)
+        self.typ_cb = QComboBox()
+        self.typ_cb.addItems([<span class="hljs-string">"expense"</span>, <span class="hljs-string">"income"</span>])
+        self.cat_cb = QComboBox()
+        self.cat_cb.setEditable(<span class="hljs-literal">True</span>)
+        self.desc_cb = QComboBox()
+        self.desc_cb.setEditable(<span class="hljs-literal">True</span>)
+
+        btn_add = QPushButton(<span class="hljs-string">"Add Transaction"</span>)
+        btn_add.clicked.connect(self._add_transaction)
+
+        form.addRow(<span class="hljs-string">"Date"</span>, self.date_edit)
+        form.addRow(<span class="hljs-string">"Amount"</span>, self.amt_spin)
+        form.addRow(<span class="hljs-string">"Type"</span>, self.typ_cb)
+        form.addRow(<span class="hljs-string">"Category"</span>, self.cat_cb)
+        form.addRow(<span class="hljs-string">"Description"</span>, self.desc_cb)
+        form.addRow(<span class="hljs-string">""</span>, btn_add)
+
+        self.tr_model = PandasModel()
+        self.tr_table = QTableView()
+        self.tr_table.setModel(self.tr_model)
+        btn_del = QPushButton(<span class="hljs-string">"Delete Selected"</span>)
+        btn_del.clicked.connect(self._delete_transaction)
+
+        layout.addLayout(form)
+        layout.addWidget(self.tr_table)
+        layout.addWidget(btn_del)
+        w.setLayout(layout)
+
+        self._refresh_transactions()
+        <span class="hljs-keyword">return</span> w
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_add_transaction</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            d = self.date_edit.date()
+            <span class="hljs-keyword">if</span> d &gt; QDate.currentDate():
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"Date cannot be in the future."</span>)
+            cat = self.cat_cb.currentText().strip()
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cat:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"Category cannot be empty."</span>)
+            amt = self.amt_spin.value()
+            <span class="hljs-keyword">if</span> amt == <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"Amount must not be zero."</span>)
+            typ = self.typ_cb.currentText()
+            val = -abs(amt) <span class="hljs-keyword">if</span> typ == <span class="hljs-string">"expense"</span> <span class="hljs-keyword">else</span> abs(amt)
+            data = {
+                <span class="hljs-string">"date"</span>: d.toString(<span class="hljs-string">"yyyy-MM-dd"</span>),
+                <span class="hljs-string">"amount"</span>: val,
+                <span class="hljs-string">"category"</span>: cat,
+                <span class="hljs-string">"description"</span>: self.desc_cb.currentText().strip()
+            }
+            <span class="hljs-keyword">if</span> typ == <span class="hljs-string">"expense"</span>:
+                add_expense(**data)
+            <span class="hljs-keyword">else</span>:
+                add_income(**data)
+
+            QMessageBox.information(self, <span class="hljs-string">"Success"</span>, <span class="hljs-string">f"<span class="hljs-subst">{typ.capitalize()}</span> recorded."</span>)
+            self.amt_spin.setValue(<span class="hljs-number">0</span>)
+            self.desc_cb.setCurrentText(<span class="hljs-string">""</span>)
+            self._refresh_transactions()
+            self._update_categories()
+            self._update_months()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_refresh_transactions</span><span class="hljs-params">(self)</span>:</span>
+        df = get_transactions()
+        self.tr_model.update(df)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_delete_transaction</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            row = self.tr_table.currentIndex().row()
+            <span class="hljs-keyword">if</span> row &lt; <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span>
+            tx_id = int(self.tr_model._df.iloc[row][<span class="hljs-string">"id"</span>])
+            ok = remove_transaction(tx_id)
+            QMessageBox.information(self, <span class="hljs-string">"Deleted"</span>, <span class="hljs-string">f"Deleted=<span class="hljs-subst">{ok}</span>"</span>)
+            self._refresh_transactions()
+            self._update_categories()
+            self._update_months()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-comment"># Budgets Tab</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_make_budgets_tab</span><span class="hljs-params">(self)</span>:</span>
+        w = QWidget()
+        layout = QVBoxLayout()
+        top = QHBoxLayout()
+
+        self.bcat_cb = QComboBox()
+        self.bcat_cb.setEditable(<span class="hljs-literal">True</span>)
+        self.blim_spin = QDoubleSpinBox()
+        self.blim_spin.setMaximum(<span class="hljs-number">1e6</span>)
+
+        btn_set = QPushButton(<span class="hljs-string">"Set Budget"</span>)
+        btn_set.clicked.connect(self._set_budget)
+        btn_del = QPushButton(<span class="hljs-string">"Delete Selected Budget"</span>)
+        btn_del.clicked.connect(self._delete_selected_budget)
+
+        top.addWidget(QLabel(<span class="hljs-string">"Category"</span>))
+        top.addWidget(self.bcat_cb)
+        top.addWidget(QLabel(<span class="hljs-string">"Limit"</span>))
+        top.addWidget(self.blim_spin)
+        top.addWidget(btn_set)
+
+        self.b_model = PandasModel()
+        self.b_table = QTableView()
+        self.b_table.setModel(self.b_model)
+
+        layout.addLayout(top)
+        layout.addWidget(self.b_table)
+        layout.addWidget(btn_del)
+        w.setLayout(layout)
+
+        self._refresh_budgets()
+        <span class="hljs-keyword">return</span> w
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_set_budget</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            cat = self.bcat_cb.currentText().strip()
+            lim = self.blim_spin.value()
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> cat:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"Budget category cannot be empty."</span>)
+            <span class="hljs-keyword">if</span> lim &lt;= <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"Limit must be positive."</span>)
+            set_category_budget(cat, lim)
+            QMessageBox.information(self, <span class="hljs-string">"Success"</span>, <span class="hljs-string">"Budget set."</span>)
+            self.blim_spin.setValue(<span class="hljs-number">0</span>)
+            self._refresh_budgets()
+            self._update_categories()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_delete_selected_budget</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            row = self.b_table.currentIndex().row()
+            <span class="hljs-keyword">if</span> row &lt; <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">return</span>
+            cat = self.b_model._df.iloc[row][<span class="hljs-string">"category"</span>]
+            ok = remove_category_budget(cat)
+            QMessageBox.information(self, <span class="hljs-string">"Removed"</span>, <span class="hljs-string">f"Removed=<span class="hljs-subst">{ok}</span>"</span>)
+            self._refresh_budgets()
+            self._update_categories()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_refresh_budgets</span><span class="hljs-params">(self)</span>:</span>
+        df = list_budgets()
+        self.b_model.update(df)
+
+    <span class="hljs-comment"># Reports Tab</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_make_reports_tab</span><span class="hljs-params">(self)</span>:</span>
+        w = QWidget()
+        layout = QVBoxLayout()
+        ctrl = QHBoxLayout()
+
+        self.rmonth_cb = QComboBox()
+        self.rmonth_cb.currentIndexChanged.connect(self._show_monthly_report)
+        ctrl.addWidget(QLabel(<span class="hljs-string">"Month"</span>))
+        ctrl.addWidget(self.rmonth_cb)
+
+        btn_cat = QPushButton(<span class="hljs-string">"By Category"</span>)
+        btn_cat.clicked.connect(self._show_category_report)
+        btn_bud = QPushButton(<span class="hljs-string">"Budget"</span>)
+        btn_bud.clicked.connect(self._show_budget_report)
+
+        ctrl.addWidget(btn_cat)
+        ctrl.addWidget(btn_bud)
+
+        self.r_model = PandasModel()
+        self.r_table = QTableView()
+        self.r_table.setModel(self.r_model)
+
+        layout.addLayout(ctrl)
+        layout.addWidget(self.r_table)
+        w.setLayout(layout)
+
+        <span class="hljs-keyword">return</span> w
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_show_monthly_report</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            month = self.rmonth_cb.currentText()
+            rep = generate_monthly_report(month)
+            self.r_model.update(pd.DataFrame([rep]))
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_show_category_report</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            month = self.rmonth_cb.currentText()
+            df = generate_category_report(month)
+            self.r_model.update(df)
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_show_budget_report</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            month = self.rmonth_cb.currentText()
+            df = generate_budget_report(month)
+            self.r_model.update(df)
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-comment"># Visualization Tab</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_make_visual_tab</span><span class="hljs-params">(self)</span>:</span>
+        w = QWidget()
+        layout = QVBoxLayout()
+        ctrl = QHBoxLayout()
+
+        self.vmonth_cb = QComboBox()
+        self.vmonth_cb.currentIndexChanged.connect(self._plot_summary)
+        ctrl.addWidget(QLabel(<span class="hljs-string">"Month"</span>))
+        ctrl.addWidget(self.vmonth_cb)
+
+        btn1 = QPushButton(<span class="hljs-string">"Summary"</span>)
+        btn1.clicked.connect(self._plot_summary)
+        btn2 = QPushButton(<span class="hljs-string">"Category"</span>)
+        btn2.clicked.connect(self._plot_category)
+        btn3 = QPushButton(<span class="hljs-string">"Budget"</span>)
+        btn3.clicked.connect(self._plot_budget)
+        btn4 = QPushButton(<span class="hljs-string">"Trend"</span>)
+        btn4.clicked.connect(self._plot_trend)
+
+        ctrl.addWidget(btn1)
+        ctrl.addWidget(btn2)
+        ctrl.addWidget(btn3)
+        ctrl.addWidget(btn4)
+
+        self.canvas = FigureCanvas(plt.figure(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">4</span>)))
+        layout.addLayout(ctrl)
+        layout.addWidget(self.canvas)
+        w.setLayout(layout)
+
+        <span class="hljs-keyword">return</span> w
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_plot_summary</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            month = self.vmonth_cb.currentText()
+            rep = generate_monthly_report(month)
+            fig = self.canvas.figure
+            fig.clear()
+            ax = fig.add_subplot(<span class="hljs-number">111</span>)
+            sns.barplot(
+                x=[<span class="hljs-string">"Income"</span>, <span class="hljs-string">"Expense"</span>],
+                y=[rep[<span class="hljs-string">"income"</span>], abs(rep[<span class="hljs-string">"expense"</span>])],
+                palette=[<span class="hljs-string">"#4caf50"</span>, <span class="hljs-string">"#f44336"</span>],
+                ax=ax
+            )
+            ax.set_title(<span class="hljs-string">f"Summary <span class="hljs-subst">{month}</span>"</span>)
+            self.canvas.draw()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_plot_category</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            month = self.vmonth_cb.currentText()
+            df = generate_category_report(month)
+            df = df[df[<span class="hljs-string">"expense"</span>] &lt; <span class="hljs-number">0</span>]
+            fig = self.canvas.figure
+            fig.clear()
+            ax = fig.add_subplot(<span class="hljs-number">111</span>)
+            <span class="hljs-keyword">if</span> df.empty:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"No expenses to plot."</span>)
+            ax.pie(-df[<span class="hljs-string">"expense"</span>], labels=df[<span class="hljs-string">"category"</span>], autopct=<span class="hljs-string">"%1.1f%%"</span>)
+            ax.set_title(<span class="hljs-string">f"Category <span class="hljs-subst">{month}</span>"</span>)
+            self.canvas.draw()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_plot_budget</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            month = self.vmonth_cb.currentText()
+            df = generate_budget_report(month)
+            fig = self.canvas.figure
+            fig.clear()
+            ax = fig.add_subplot(<span class="hljs-number">111</span>)
+            <span class="hljs-keyword">if</span> df.empty:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"No budget data."</span>)
+            df = df.sort_values(<span class="hljs-string">"remaining"</span>)
+            sns.barplot(x=<span class="hljs-string">"remaining"</span>, y=<span class="hljs-string">"category"</span>, data=df, palette=<span class="hljs-string">"Blues_d"</span>, ax=ax)
+            ax.set_title(<span class="hljs-string">f"Remaining <span class="hljs-subst">{month}</span>"</span>)
+            self.canvas.draw()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_plot_trend</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            year = self.vmonth_cb.currentText()[:<span class="hljs-number">4</span>]
+            df = get_monthly_trend(year)
+            fig = self.canvas.figure
+            fig.clear()
+            ax = fig.add_subplot(<span class="hljs-number">111</span>)
+            <span class="hljs-keyword">if</span> df.empty:
+                <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"No trend data."</span>)
+            df_m = df.melt(
+                id_vars=[<span class="hljs-string">"month"</span>],
+                value_vars=[<span class="hljs-string">"income"</span>, <span class="hljs-string">"expense"</span>, <span class="hljs-string">"net"</span>],
+                var_name=<span class="hljs-string">"variable"</span>,
+                value_name=<span class="hljs-string">"value"</span>
+            )
+            sns.lineplot(data=df_m, x=<span class="hljs-string">"month"</span>, y=<span class="hljs-string">"value"</span>, hue=<span class="hljs-string">"variable"</span>, marker=<span class="hljs-string">"o"</span>, ax=ax)
+            ax.set_title(<span class="hljs-string">f"Trend <span class="hljs-subst">{year}</span>"</span>)
+            ax.tick_params(axis=<span class="hljs-string">"x"</span>, rotation=<span class="hljs-number">45</span>)
+            self.canvas.draw()
+        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+            self._show_error(str(e))
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    Path(<span class="hljs-string">"data"</span>).mkdir(exist_ok=<span class="hljs-literal">True</span>)
+    app = QApplication(sys.argv)
+    win = MainWindow()
+    win.show()
+    sys.exit(app.exec_())
+</div></code></pre>
+</details>
+<h3 id="%E2%91%A2-outcome-demonstration">③ <strong>Outcome Demonstration</strong></h3>
+<p><img src="readme5.png" alt="5"></p>
+<p><img src="readme6.png" alt="6"></p>
+<p><img src="readme7.png" alt="7"></p>
+<p><img src="readme8.png" alt="8"></p>
+<p>You can click <a href="https://github.com/SUNCHAOYI923/Expense_Tracker">here</a> to view more details about this project.</p>
+
+</body>
+</html>

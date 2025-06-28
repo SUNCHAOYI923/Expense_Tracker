@@ -834,7 +834,7 @@ The final step is to package this code into a complete desktop accounting tool w
 
 > Build a simple PyQt5 GUI that ties everything together and embeds Matplotlib charts.
 
-#### 6. Debug &  Optimization
+#### 6. Debug & Optimization
 
 **Example**
 
